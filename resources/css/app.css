@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+}
+
+/*
+ * Reduced motion: keep opacity/color transitions that aid comprehension,
+ * drop position/scale movement that can cause motion sickness.
+ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-property: opacity, color, background-color, border-color,
+            box-shadow !important;
+        transition-duration: 150ms !important;
+    }
+}
