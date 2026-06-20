@@ -5,22 +5,14 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', fn () => redirect()->route('boards.index'))
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    return auth()->check()
+        ? redirect()->route('boards.index')
+        : Inertia::render('Landing');
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

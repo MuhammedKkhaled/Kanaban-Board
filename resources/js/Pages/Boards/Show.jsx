@@ -167,17 +167,17 @@ export default function Show({ board }) {
                     <div className="flex items-center gap-3">
                         <Link
                             href={route('boards.index')}
-                            className="text-gray-400 hover:text-gray-600"
+                            className="text-gray-400 transition-colors duration-150 ease-out-strong hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                         >
                             ←
                         </Link>
-                        <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
                             {board.name}
                         </h2>
                     </div>
                     <button
                         onClick={() => setManagingLabels(true)}
-                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition-[transform,background-color] duration-150 ease-out-strong hover:bg-gray-50 active:scale-[0.97] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                     >
                         Manage labels
                     </button>
@@ -213,7 +213,7 @@ export default function Show({ board }) {
 
                         <div className="w-72 shrink-0">
                             {addingColumn ? (
-                                <form onSubmit={createColumn} className="rounded-xl bg-gray-100 p-2">
+                                <form onSubmit={createColumn} className="rounded-xl bg-gray-100 p-2 dark:bg-gray-800">
                                     <input
                                         autoFocus
                                         value={newColumnName}
@@ -221,13 +221,13 @@ export default function Show({ board }) {
                                         onBlur={createColumn}
                                         onKeyDown={(e) => e.key === 'Escape' && setAddingColumn(false)}
                                         placeholder="Column name…"
-                                        className="w-full rounded border-gray-300 px-2 py-1 text-sm"
+                                        className="w-full rounded border-gray-300 px-2 py-1 text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500"
                                     />
                                 </form>
                             ) : (
                                 <button
                                     onClick={() => setAddingColumn(true)}
-                                    className="w-full rounded-xl border-2 border-dashed border-gray-300 px-4 py-3 text-sm text-gray-500 transition-[transform,color,border-color] duration-150 ease-out-strong hover:border-gray-400 hover:text-gray-700 active:scale-[0.98]"
+                                    className="w-full rounded-xl border-2 border-dashed border-gray-300 px-4 py-3 text-sm text-gray-500 transition-[transform,color,border-color] duration-150 ease-out-strong hover:border-gray-400 hover:text-gray-700 active:scale-[0.98] dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-200"
                                 >
                                     + Add column
                                 </button>

@@ -29,7 +29,7 @@ export default function Index({ boards }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
                     Boards
                 </h2>
             }
@@ -43,23 +43,23 @@ export default function Index({ boards }) {
                             <div
                                 key={board.id}
                                 style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
-                                className="group relative animate-card-in rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-200 ease-out-strong hover:-translate-y-1 hover:border-gray-300 hover:shadow-md"
+                                className="group relative animate-card-in rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-200 ease-out-strong hover:-translate-y-1 hover:border-gray-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
                             >
                                 <Link
                                     href={route('boards.show', board.id)}
                                     className="block"
                                 >
-                                    <h3 className="text-lg font-semibold text-gray-800">
+                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                                         {board.name}
                                     </h3>
-                                    <p className="mt-1 text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                         {board.columns_count} column
                                         {board.columns_count === 1 ? '' : 's'}
                                     </p>
                                 </Link>
                                 <button
                                     onClick={() => destroy(board)}
-                                    className="absolute right-3 top-3 text-gray-300 opacity-0 transition hover:text-red-500 group-hover:opacity-100"
+                                    className="absolute right-3 top-3 text-gray-300 opacity-0 transition-[opacity,color] duration-150 ease-out-strong hover:text-red-500 group-hover:opacity-100 dark:text-gray-600 dark:hover:text-red-400"
                                     title="Delete board"
                                 >
                                     ✕
@@ -69,7 +69,7 @@ export default function Index({ boards }) {
 
                         <button
                             onClick={() => setCreating(true)}
-                            className="flex min-h-[96px] items-center justify-center rounded-xl border-2 border-dashed border-gray-300 text-gray-500 transition-[transform,color,border-color] duration-150 ease-out-strong hover:border-gray-400 hover:text-gray-700 active:scale-[0.98]"
+                            className="flex min-h-[96px] items-center justify-center rounded-xl border-2 border-dashed border-gray-300 text-gray-500 transition-[transform,color,border-color] duration-150 ease-out-strong hover:border-gray-400 hover:text-gray-700 active:scale-[0.98] dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-200"
                         >
                             + New board
                         </button>
@@ -79,7 +79,7 @@ export default function Index({ boards }) {
 
             <Modal show={creating} onClose={() => setCreating(false)} maxWidth="md">
                 <form onSubmit={create} className="space-y-4 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                         Create a board
                     </h2>
                     <TextInput
@@ -90,7 +90,7 @@ export default function Index({ boards }) {
                         className="block w-full"
                     />
                     {errors.name && (
-                        <p className="text-sm text-red-600">{errors.name}</p>
+                        <p className="text-sm text-red-600 dark:text-red-400">{errors.name}</p>
                     )}
                     <div className="flex justify-end gap-2">
                         <SecondaryButton type="button" onClick={() => setCreating(false)}>

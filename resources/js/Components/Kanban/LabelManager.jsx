@@ -27,11 +27,15 @@ export default function LabelManager({ show, board, labels, onClose }) {
     return (
         <Modal show={show} onClose={onClose} maxWidth="md">
             <div className="space-y-4 p-6">
-                <h2 className="text-lg font-semibold text-gray-800">Manage labels</h2>
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                    Manage labels
+                </h2>
 
                 <div className="space-y-2">
                     {labels.length === 0 && (
-                        <p className="text-sm text-gray-500">No labels yet.</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                            No labels yet.
+                        </p>
                     )}
                     {labels.map((label) => (
                         <div key={label.id} className="flex items-center justify-between">
@@ -43,7 +47,7 @@ export default function LabelManager({ show, board, labels, onClose }) {
                             </span>
                             <button
                                 onClick={() => remove(label)}
-                                className="text-sm text-gray-400 hover:text-red-500"
+                                className="text-sm text-gray-400 transition-colors duration-150 ease-out-strong hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
                             >
                                 Remove
                             </button>
@@ -51,14 +55,16 @@ export default function LabelManager({ show, board, labels, onClose }) {
                     ))}
                 </div>
 
-                <form onSubmit={create} className="space-y-3 border-t border-gray-100 pt-4">
+                <form onSubmit={create} className="space-y-3 border-t border-gray-100 pt-4 dark:border-gray-700">
                     <TextInput
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         placeholder="New label name"
                         className="block w-full"
                     />
-                    {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
+                    {errors.name && (
+                        <p className="text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                    )}
 
                     <div className="flex gap-2">
                         {PALETTE.map((color) => (
@@ -66,7 +72,7 @@ export default function LabelManager({ show, board, labels, onClose }) {
                                 type="button"
                                 key={color}
                                 onClick={() => setData('color', color)}
-                                className={`h-6 w-6 rounded-full ${data.color === color ? 'ring-2 ring-gray-800 ring-offset-2' : ''}`}
+                                className={`h-6 w-6 rounded-full transition-transform duration-150 ease-out-strong active:scale-90 ${data.color === color ? 'ring-2 ring-gray-800 ring-offset-2 dark:ring-gray-200 dark:ring-offset-gray-800' : ''}`}
                                 style={{ backgroundColor: color }}
                             />
                         ))}

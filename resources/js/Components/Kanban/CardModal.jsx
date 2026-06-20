@@ -74,7 +74,7 @@ export default function CardModal({ card, labels, onClose }) {
                             className="mt-1 block w-full"
                         />
                         {errors.title && (
-                            <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.title}</p>
                         )}
                     </div>
 
@@ -85,7 +85,7 @@ export default function CardModal({ card, labels, onClose }) {
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
                             rows={4}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500"
                         />
                     </div>
 
@@ -106,7 +106,7 @@ export default function CardModal({ card, labels, onClose }) {
                                 id="priority"
                                 value={data.priority}
                                 onChange={(e) => setData('priority', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
                             >
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
@@ -126,7 +126,7 @@ export default function CardModal({ card, labels, onClose }) {
                                             type="button"
                                             key={label.id}
                                             onClick={() => toggleLabel(label.id)}
-                                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-[transform,background-color,box-shadow] duration-150 ease-out-strong active:scale-[0.97] ${active ? 'text-white' : 'text-gray-600 ring-1 ring-inset ring-gray-300 hover:ring-gray-400'}`}
+                                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-[transform,background-color,box-shadow] duration-150 ease-out-strong active:scale-[0.97] ${active ? 'text-white' : 'text-gray-600 ring-1 ring-inset ring-gray-300 hover:ring-gray-400 dark:text-gray-300 dark:ring-gray-600 dark:hover:ring-gray-500'}`}
                                             style={active ? { backgroundColor: label.color } : {}}
                                         >
                                             {label.name}
