@@ -43,6 +43,15 @@ export default {
                     '0%, 100%': { transform: 'translateY(0)' },
                     '50%': { transform: 'translateY(-8px)' },
                 },
+                // Trash-can lid lifts, wiggles, holds open, then settles closed.
+                'trash-lid': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '15%': { transform: 'rotate(-32deg)' },
+                    '30%': { transform: 'rotate(-24deg)' },
+                    '45%': { transform: 'rotate(-32deg)' },
+                    '70%': { transform: 'rotate(-28deg)' },
+                    '100%': { transform: 'rotate(0deg)' },
+                },
             },
             animation: {
                 'card-in': 'card-in 300ms cubic-bezier(0.23, 1, 0.32, 1) both',
@@ -50,6 +59,7 @@ export default {
                 'fade-in': 'fade-in 400ms cubic-bezier(0.23, 1, 0.32, 1) both',
                 'rise-in': 'rise-in 500ms cubic-bezier(0.23, 1, 0.32, 1) both',
                 float: 'float 6s ease-in-out infinite',
+                'trash-lid': 'trash-lid 1200ms cubic-bezier(0.23, 1, 0.32, 1) 150ms both',
             },
         },
     },

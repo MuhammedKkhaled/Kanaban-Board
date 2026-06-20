@@ -1,3 +1,4 @@
+import DeleteConfirmModal from '@/Components/DeleteConfirmModal';
 import BoardColumn from '@/Components/Kanban/BoardColumn';
 import CardModal from '@/Components/Kanban/CardModal';
 import KanbanCard from '@/Components/Kanban/KanbanCard';
@@ -18,7 +19,7 @@ import {
     horizontalListSortingStrategy,
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 export default function Show({ board }) {
@@ -28,6 +29,8 @@ export default function Show({ board }) {
     const [managingLabels, setManagingLabels] = useState(false);
     const [addingColumn, setAddingColumn] = useState(false);
     const [newColumnName, setNewColumnName] = useState('');
+    const [deletingCard, setDeletingCard] = useState(null);
+    const deleteCardForm = useForm();
 
     // Re-sync local state whenever the server sends a fresh board (create/edit/delete).
     useEffect(() => setColumns(board.columns), [board]);
@@ -150,6 +153,13 @@ export default function Show({ board }) {
         }
     }
 
+    function confirmDeleteCard() {
+        deleteCardForm.delete(route('cards.destroy', deletingCard.id), {
+            preserveScroll: true,
+            onSuccess: () => setDeletingCard(null),
+        });
+    }
+
     function createColumn(event) {
         event.preventDefault();
         const name = newColumnName.trim();
@@ -207,6 +217,7 @@ export default function Show({ board }) {
                                     onAddCard={addCard}
                                     onRename={renameColumn}
                                     onDelete={deleteColumn}
+                                    onDeleteCard={setDeletingCard}
                                 />
                             ))}
                         </SortableContext>
@@ -254,6 +265,20 @@ export default function Show({ board }) {
                 board={board}
                 labels={board.labels}
                 onClose={() => setManagingLabels(false)}
+            />
+
+            <DeleteConfirmModal
+                show={!!deletingCard}
+                title="Delete card?"
+                description={
+                    deletingCard
+                        ? `"${deletingCard.title}" will be permanently deleted. This action can't be undone.`
+                        : ''
+                }
+                confirmLabel="Delete card"
+                processing={deleteCardForm.processing}
+                onConfirm={confirmDeleteCard}
+                onClose={() => setDeletingCard(null)}
             />
         </AuthenticatedLayout>
     );

@@ -1,14 +1,18 @@
+import AnimatedTrashIcon from '@/Components/AnimatedTrashIcon';
+import DeleteConfirmModal from '@/Components/DeleteConfirmModal';
 import Modal from '@/Components/Modal';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Index({ boards }) {
     const [creating, setCreating] = useState(false);
+    const [deletingBoard, setDeletingBoard] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({ name: '' });
+    const deleteForm = useForm();
 
     function create(event) {
         event.preventDefault();
@@ -20,10 +24,11 @@ export default function Index({ boards }) {
         });
     }
 
-    function destroy(board) {
-        if (confirm(`Delete board "${board.name}"? This cannot be undone.`)) {
-            router.delete(route('boards.destroy', board.id), { preserveScroll: true });
-        }
+    function confirmDelete() {
+        deleteForm.delete(route('boards.destroy', deletingBoard.id), {
+            preserveScroll: true,
+            onSuccess: () => setDeletingBoard(null),
+        });
     }
 
     return (
@@ -47,7 +52,7 @@ export default function Index({ boards }) {
                             >
                                 <Link
                                     href={route('boards.show', board.id)}
-                                    className="block"
+                                    className="block pr-9"
                                 >
                                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                                         {board.name}
@@ -58,11 +63,12 @@ export default function Index({ boards }) {
                                     </p>
                                 </Link>
                                 <button
-                                    onClick={() => destroy(board)}
-                                    className="absolute right-3 top-3 text-gray-300 opacity-0 transition-[opacity,color] duration-150 ease-out-strong hover:text-red-500 group-hover:opacity-100 dark:text-gray-600 dark:hover:text-red-400"
+                                    onClick={() => setDeletingBoard(board)}
+                                    className="absolute right-2.5 top-2.5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-lg text-red-500 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-red-50 hover:text-red-600 active:scale-90 dark:text-red-400 dark:hover:bg-red-900/30 dark:hover:text-red-300"
+                                    aria-label={`Delete board ${board.name}`}
                                     title="Delete board"
                                 >
-                                    ✕
+                                    <AnimatedTrashIcon className="h-4 w-4" />
                                 </button>
                             </div>
                         ))}
@@ -100,6 +106,20 @@ export default function Index({ boards }) {
                     </div>
                 </form>
             </Modal>
+
+            <DeleteConfirmModal
+                show={!!deletingBoard}
+                title="Delete board?"
+                description={
+                    deletingBoard
+                        ? `"${deletingBoard.name}" and all of its columns and cards will be permanently deleted. This action can't be undone.`
+                        : ''
+                }
+                confirmLabel="Delete board"
+                processing={deleteForm.processing}
+                onConfirm={confirmDelete}
+                onClose={() => setDeletingBoard(null)}
+            />
         </AuthenticatedLayout>
     );
 }

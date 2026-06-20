@@ -1,3 +1,4 @@
+import AnimatedTrashIcon from '@/Components/AnimatedTrashIcon';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -13,7 +14,7 @@ function formatDate(value) {
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-export default function KanbanCard({ card, onClick, isOverlay = false }) {
+export default function KanbanCard({ card, onClick, onDelete, isOverlay = false }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
         useSortable({ id: card.id, data: { type: 'card', columnId: card.column_id } });
 
@@ -32,13 +33,31 @@ export default function KanbanCard({ card, onClick, isOverlay = false }) {
             {...attributes}
             {...listeners}
             onClick={() => onClick(card)}
-            className={`animate-card-in cursor-grab rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-[box-shadow,border-color] duration-200 ease-out-strong hover:border-gray-300 hover:shadow-md active:cursor-grabbing dark:border-gray-700 dark:bg-gray-700/80 dark:hover:border-gray-500 ${
+            className={`group relative animate-card-in cursor-grab rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-[box-shadow,border-color] duration-200 ease-out-strong hover:border-gray-300 hover:shadow-md active:cursor-grabbing dark:border-gray-700 dark:bg-gray-700/80 dark:hover:border-gray-500 ${
                 isOverlay
                     ? 'rotate-3 scale-[1.02] cursor-grabbing shadow-xl ring-1 ring-black/5 dark:ring-white/10'
                     : ''
             }`}
         >
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{card.title}</p>
+            {onDelete && !isOverlay && (
+                <button
+                    type="button"
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(card);
+                    }}
+                    aria-label={`Delete card ${card.title}`}
+                    title="Delete card"
+                    className="absolute right-1.5 top-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md text-red-400 opacity-60 transition-[transform,background-color,color,opacity] duration-150 ease-out-strong hover:bg-red-50 hover:text-red-600 hover:opacity-100 focus:opacity-100 focus:outline-none active:scale-90 group-hover:opacity-100 dark:hover:bg-red-900/30 dark:hover:text-red-300"
+                >
+                    <AnimatedTrashIcon className="h-3.5 w-3.5" />
+                </button>
+            )}
+
+            <p className="pr-6 text-sm font-medium text-gray-800 dark:text-gray-100">
+                {card.title}
+            </p>
 
             {card.labels?.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-1">

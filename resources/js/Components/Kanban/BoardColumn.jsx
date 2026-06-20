@@ -4,7 +4,15 @@ import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
 import KanbanCard from './KanbanCard';
 
-export default function BoardColumn({ column, index = 0, onCardClick, onAddCard, onRename, onDelete }) {
+export default function BoardColumn({
+    column,
+    index = 0,
+    onCardClick,
+    onAddCard,
+    onRename,
+    onDelete,
+    onDeleteCard,
+}) {
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState(column.name);
     const [adding, setAdding] = useState(false);
@@ -97,7 +105,12 @@ export default function BoardColumn({ column, index = 0, onCardClick, onAddCard,
             <div ref={setDropRef} className="flex flex-1 flex-col gap-2 px-2 pb-2">
                 <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
                     {column.cards.map((card) => (
-                        <KanbanCard key={card.id} card={card} onClick={onCardClick} />
+                        <KanbanCard
+                            key={card.id}
+                            card={card}
+                            onClick={onCardClick}
+                            onDelete={onDeleteCard}
+                        />
                     ))}
                 </SortableContext>
 
